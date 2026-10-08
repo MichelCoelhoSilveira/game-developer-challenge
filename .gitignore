@@ -14,3 +14,18 @@ dist/
 
 # Logs
 *.log
+
+# Playwright run artifacts (visual snapshots under tests remain versioned)
+/test-results/
+/playwright-report/*
+!/playwright-report/index.html
+/playwright/.cache/
+/performance-report/*
+!/performance-report/results.json
+!/performance-report/html/
+/performance-report/html/*
+!/performance-report/html/index.html
+!/performance-report/test-results/
+/performance-report/test-results/*
+
+.vercel
