@@ -1,0 +1,152 @@
+{
+  "gameplay": {
+    "capturedAt": "2026-10-08T06:13:22.483Z",
+    "mode": "Vite optimized production build (e2e telemetry enabled)",
+    "browser": {
+      "name": "chromium",
+      "version": "156.0.8078.4",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36"
+    },
+    "machine": {
+      "platform": "Windows_NT 10.0.26200",
+      "architecture": "x64",
+      "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor           ",
+      "logicalCores": 16,
+      "totalMemoryGiB": 31.1,
+      "gpu": "Not measured"
+    },
+    "display": {
+      "width": 1365,
+      "height": 900,
+      "dpr": 1
+    },
+    "match": {
+      "configuredSeconds": 180,
+      "seed": 202609,
+      "spawnIntervalSeconds": 2,
+      "invulnerable": true,
+      "controls": "W+D movement; L fired at one-second intervals"
+    },
+    "frame": {
+      "count": 10804,
+      "averageFps": 60,
+      "p95IntervalMs": 16.8,
+      "framesOver16_67msPercent": 61.64,
+      "framesOver33_33msPercent": 0
+    },
+    "entities": {
+      "samples": 179,
+      "peakEnemies": 11,
+      "peakWrecks": 2,
+      "peakProjectiles": 6,
+      "peakExplosions": 3,
+      "peakCrew": 3,
+      "peakTotal": 18
+    },
+    "completion": {
+      "id": "e08bda23-e900-4827-a0dc-b8f4140365ed",
+      "playerId": "38b9b3d2-c2c0-472d-bb5d-81fb5c703262",
+      "playerName": "You",
+      "createdAt": "2026-10-08T06:13:22.172Z",
+      "score": 65,
+      "durationSeconds": 180,
+      "reason": "time",
+      "options": {
+        "gameSessionTime": 180,
+        "enemySpawnTime": 2
+      }
+    }
+  },
+  "memoryCycles": {
+    "capturedAt": "2026-10-08T06:13:32.504Z",
+    "browser": {
+      "name": "chromium",
+      "version": "156.0.8078.4"
+    },
+    "method": "Chromium CDP Performance metrics after forced V8 GC; five Pixi arena mount/play/unmount cycles",
+    "liveEntities": [
+      {
+        "enemies": 0,
+        "wrecks": 0,
+        "projectiles": 1,
+        "explosions": 0,
+        "crew": 0,
+        "total": 2
+      },
+      {
+        "enemies": 0,
+        "wrecks": 0,
+        "projectiles": 1,
+        "explosions": 0,
+        "crew": 0,
+        "total": 2
+      },
+      {
+        "enemies": 0,
+        "wrecks": 0,
+        "projectiles": 1,
+        "explosions": 0,
+        "crew": 0,
+        "total": 2
+      },
+      {
+        "enemies": 0,
+        "wrecks": 0,
+        "projectiles": 1,
+        "explosions": 0,
+        "crew": 0,
+        "total": 2
+      },
+      {
+        "enemies": 0,
+        "wrecks": 0,
+        "projectiles": 1,
+        "explosions": 0,
+        "crew": 0,
+        "total": 2
+      }
+    ],
+    "samples": [
+      {
+        "label": "menu-baseline",
+        "usedHeapMiB": 4.32,
+        "heapTotalMiB": 4.85,
+        "documentNodes": 373
+      },
+      {
+        "label": "after-cycle-1",
+        "usedHeapMiB": 6.99,
+        "heapTotalMiB": 7.66,
+        "documentNodes": 387
+      },
+      {
+        "label": "after-cycle-2",
+        "usedHeapMiB": 7.29,
+        "heapTotalMiB": 8.16,
+        "documentNodes": 387
+      },
+      {
+        "label": "after-cycle-3",
+        "usedHeapMiB": 7.56,
+        "heapTotalMiB": 8.16,
+        "documentNodes": 387
+      },
+      {
+        "label": "after-cycle-4",
+        "usedHeapMiB": 7.78,
+        "heapTotalMiB": 8.41,
+        "documentNodes": 387
+      },
+      {
+        "label": "after-cycle-5",
+        "usedHeapMiB": 7.96,
+        "heapTotalMiB": 8.66,
+        "documentNodes": 387
+      }
+    ],
+    "netChange": {
+      "heapUsedMiB": 3.64,
+      "documentNodes": 14
+    }
+  }
+}

@@ -1,0 +1,76 @@
+import { chooseScenario, expect, openMenu, startGame, test } from './fixtures'
+
+test('ranking and match history load, paginate, and show empty and error states', async ({ page }) => {
+  await openMenu(page)
+  await chooseScenario(page, 'multi-page')
+  await expect(page.locator('.ranking-list li')).toHaveCount(5)
+  await page.getByRole('button', { name: 'Next page' }).click()
+  await expect(page.getByText('Page 2 of 3')).toBeVisible()
+  await expect(page.locator('.ranking-list li')).toHaveCount(5)
+  await page.getByRole('button', { name: 'Previous page' }).click()
+  await expect(page.getByText('Page 1 of 3')).toBeVisible()
+
+  await page.getByRole('tab', { name: 'Match history' }).click()
+  await expect(page.locator('.history-list li')).toHaveCount(5)
+  await page.getByRole('button', { name: 'Next page' }).click()
+  await expect(page.getByText('Page 2 of 3')).toBeVisible()
+
+  await chooseScenario(page, 'empty')
+  await page.getByRole('tab', { name: 'Ranking' }).click()
+  await expect(page.getByText('No scores yet')).toBeVisible()
+  await page.getByRole('tab', { name: 'Match history' }).click()
+  await expect(page.getByText('No matches yet')).toBeVisible()
+
+  await chooseScenario(page, 'ranking-error')
+  await page.getByRole('tab', { name: 'Ranking' }).click()
+  await expect(page.getByRole('alert')).toContainText('Could not load ranking')
+  await chooseScenario(page, 'history-error')
+  await page.getByRole('tab', { name: 'Match history' }).click()
+  await expect(page.getByRole('alert')).toContainText('Could not load match history')
+})
+
+test('a locally queued match syncs after refresh and appears in both tabs', async ({ page }) => {
+  await openMenu(page)
+  await chooseScenario(page, 'api-unavailable')
+  await startGame(page)
+  await page.evaluate(() => window.__PIRATE_GAME_TEST__!.setTimeScale(200))
+  await expect(page.getByRole('heading', { name: 'Time is up' })).toBeVisible({ timeout: 8_000 })
+
+  await page.getByRole('button', { name: 'Main menu' }).click()
+  await chooseScenario(page, 'success')
+  await page.reload()
+  await page.getByRole('button', { name: 'Main menu' }).click()
+  await expect(page.getByRole('status').filter({ hasText: 'waiting to sync' })).toHaveCount(0, { timeout: 8_000 })
+  await expect(page.locator('.ranking-list')).toContainText('You')
+  await page.getByRole('tab', { name: 'Match history' }).click()
+  await expect(page.locator('.history-list li')).toHaveCount(1)
+  await expect(page.locator('.history-list')).toContainText('Time up')
+})
+
+test('a registration timeout can be retried without duplicate records', async ({ page }) => {
+  await openMenu(page)
+  await chooseScenario(page, 'registration-timeout')
+  await startGame(page)
+  await page.evaluate(() => window.__PIRATE_GAME_TEST__!.setTimeScale(200))
+  await expect(page.getByRole('heading', { name: 'Time is up' })).toBeVisible({ timeout: 8_000 })
+  await expect(page.getByRole('button', { name: 'Retry match submission' })).toBeVisible({ timeout: 9_000 })
+  await page.getByRole('button', { name: 'Retry match submission' }).click()
+  await expect(page.getByText('Match recorded in ranking and history.')).toBeVisible({ timeout: 8_000 })
+
+  const confirmed = await page.evaluate(() => JSON.parse(localStorage.getItem('pirate-battle:confirmed-matches:v1') ?? '[]') as Array<{ id: string }>)
+  expect(confirmed).toHaveLength(1)
+  await page.getByRole('button', { name: 'Main menu' }).click()
+  await expect(page.locator('.ranking-list li').filter({ hasText: 'You' })).toHaveCount(1)
+})
+
+test('out-of-order page responses keep the selected page current', async ({ page }) => {
+  await openMenu(page)
+  await chooseScenario(page, 'out-of-order')
+  await expect(page.locator('.ranking-list li')).toHaveCount(5, { timeout: 6_000 })
+  await page.getByRole('button', { name: 'Next page' }).click()
+  await expect(page.getByText('Page 2 of 3')).toBeVisible()
+  await expect(page.locator('.ranking-list li').first()).toContainText('Captain F')
+  await page.getByRole('button', { name: 'Previous page' }).click()
+  await expect(page.getByText('Page 1 of 3')).toBeVisible()
+  await expect(page.locator('.ranking-list li').first()).toContainText('Captain A')
+})
